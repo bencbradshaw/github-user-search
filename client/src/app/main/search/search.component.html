@@ -1,0 +1,28 @@
+<main>
+    <section>
+        <h2>Search Github Users by Username</h2>
+        <form [formGroup]="searchForm">
+            <input type="text" placeholder="Enter Username" [formControlName]="'username'">
+        </form>
+        <ng-container *ngIf="error">
+            <h5>Error: {{error}}</h5>
+        </ng-container>
+        <ng-container *ngIf="users$ | async as users; else loading">
+                <h6>Results: {{users.total_count}}</h6>
+                <ng-container *ngFor="let user of users.items">
+                    <a class="user"  [href]="user.html_url">
+                        <img [src]="user.avatar_url">
+                        <h3>{{user.login}}</h3> 
+                    </a>
+                </ng-container>
+        </ng-container>
+        <div>
+            <button *ngFor="let page of pages" (click)="goTo(page)">{{page}}</button>
+        </div>
+        <ng-template #loading>
+            No Results
+        </ng-template>
+    </section>
+</main>
+
+
